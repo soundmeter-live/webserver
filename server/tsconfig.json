@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "./.dist",
+    "strict": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Bundler",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "graphql-modules": ["./node_modules/graphql-modules/index.d.ts"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

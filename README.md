@@ -1,0 +1,3 @@
+# soundmeter.live
+
+## server usage

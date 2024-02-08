@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "concurrently \"npm:dev-*\"",
+    "dev-types": "cd server && pnpm gql:gen --watch",
+    "dev-server": "cd server && pnpm dev",
+    "dev-client": "cd client && pnpm dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
