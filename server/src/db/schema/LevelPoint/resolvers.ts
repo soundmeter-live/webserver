@@ -11,6 +11,8 @@ const resolvers: LevelPointModule.Resolvers = {
   Mutation: {
     levelPointCreate: f.levelPointCreate,
     levelPointCreateMultiple: f.levelPointCreateMultiple,
+    levelPointUpdate: f.levelPointUpdate,
+    levelPointDelete: f.levelPointDelete,
   },
   LevelPoint: {
     timestamp,

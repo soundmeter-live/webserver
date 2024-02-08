@@ -5,13 +5,14 @@ import { useApiQuery } from '@/query';
 import { AxiosError } from 'axios';
 
 const MAX_DISPLAY_SPL = 115;
+const REFRESH_RATE_MS = 8000;
 
 const Points = () => {
   const { isPending, isError, isFetching, data, error } = useApiQuery(
     '/api/points',
     null,
     {
-      refetchInterval: 5000,
+      refetchInterval: REFRESH_RATE_MS,
     },
   );
   if (isError)
