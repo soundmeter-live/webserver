@@ -9,8 +9,10 @@ export default function PointsPage() {
         <div className="flex-1 p-2">
           <Points />
         </div>
-        <div className="bg-zinc-950 px-8 py-2 text-right text-sm text-zinc-300 opacity-80 hover:opacity-100">
-          <Link href="/">soundmeter.live</Link>
+        <div className="mt-8 bg-zinc-950 px-8 py-2 text-right text-sm text-zinc-300">
+          <Link href="/" className="opacity-80 hover:opacity-100">
+            soundmeter.live
+          </Link>
         </div>
       </div>
     </>

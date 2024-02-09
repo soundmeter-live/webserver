@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
-
 import defaults from 'tailwindcss/defaultTheme';
+
+// import forms from '@tailwindcss/forms';
 
 const config: Config = {
   content: [

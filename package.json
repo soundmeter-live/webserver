@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "concurrently \"npm:dev-*\"",
-    "dev-types": "cd server && pnpm gql:gen --watch",
+    "dev-types-S": "cd server && pnpm gql:gen --watch",
+    "dev-types-C": "cd client && pnpm gql:gen --watch",
     "dev-server": "cd server && pnpm dev",
     "dev-client": "cd client && pnpm dev"
   },

@@ -42,7 +42,7 @@ On _success_, The endpoint returns the added points, this time with their newly 
 {
   "points": [
     {
-      "ID": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
+      "id": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
       "timeAt": 000000000000, // integer unix timestamp
       "value": 0.0            // loudness value at this time
     },
@@ -74,7 +74,7 @@ On _success_, The endpoint returns all endpoints in this format...
 {
   "points": [
     {
-      "ID": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
+      "id": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
       "timeAt": 000000000000, // integer unix timestamp
       "value": 0.0            // loudness value at this time
     },

@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createYoga } from 'graphql-yoga';
 import { useGraphQLModules } from '@envelop/graphql-modules';
-
-// import { createHandler } from 'graphql-http/lib/use/express';
-import { ExecutionResult, type DocumentNode } from 'graphql';
 import { createApplication } from 'graphql-modules';
+
+import type { ExecutionResult, DocumentNode } from 'graphql';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue';
 

@@ -1,4 +1,4 @@
-/* AWS db.js v1.4.0 by mbf. updated 2023.10.16. */
+/* AWS db.js v1.4.0 by mbf. updated 2024.02.08. */
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
@@ -119,6 +119,64 @@ methods.query = async (TableName, { query, index, include: include_ }) => {
   }
 };
 
+/**
+ * run a query with a complex sort term (e.g. a range of values)
+ *
+ * [see the list of valid operands](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html#DDB-Query-request-KeyConditionExpression)
+ *
+ * @param {*} TableName
+ * @param {*} options { index, query }
+ * @returns items[]
+ * @example
+ *
+ * query('table-name', {
+ *   index: 'indexName',
+ *   query: {
+ *     primaryKey: ['key1', 'key1value'],
+ *     sortKey: ['key2', 'BETWEEN', 5, 10],
+ *     // -- OR --
+ *     sortKey: ['key2', '<=', 45],
+ *   },
+ * });
+ *
+ */
+methods.queryCompare = async (
+  TableName,
+  {
+    index,
+    query: {
+      primaryKey: [primaryKey, primaryKeyValue],
+      sortKey: [sortKey, operand, ...values],
+    },
+  }
+) => {
+  const names = [primaryKey, sortKey].reduce(
+    (obj, it, i) => ({ ...obj, [`#k${i.toString(16)}`]: it }),
+    {}
+  );
+  const n = Object.keys(names);
+  values = [primaryKeyValue, ...values].reduce(
+    (obj, it, i) => ({
+      ...obj,
+      [`:v${i.toString(16)}`]: it,
+    }),
+    {}
+  );
+  const v = Object.keys(values);
+
+  const params = {
+    TableName,
+    ExpressionAttributeNames: names,
+    ExpressionAttributeValues: values,
+    KeyConditionExpression:
+      `${n[0]} = ${v[0]} AND ` +
+      `${n[1]} ${operand} ${v.slice(1).join(' AND ')}`,
+  };
+  if (index) params.IndexName = index;
+
+  return (await db.send(new QueryCommand(params))).Items;
+};
+
 methods.update = async (TableName, { id: Key, add, remove }) => {
   const dontAdd = !add;
   add = add || {};
@@ -169,18 +227,26 @@ methods.delete = async (TableName, Key) => {
   return (await db.send(new DeleteCommand(params))).Attributes;
 };
 
-methods.import = async (table, items) => {
+methods.batchWrite = async (table, items, remove = false) => {
   const REQLIM = 25; // max requests allowed in one api call.
   const requests = [];
   for (let i = 0; i < Math.ceil(items.length / REQLIM); i++) {
     requests.push({});
     requests[i][table] = Object.assign([], items)
       .splice(i * REQLIM, REQLIM)
-      .map((it) => ({
-        PutRequest: {
-          Item: it,
-        },
-      }));
+      .map((it) =>
+        !remove
+          ? {
+              PutRequest: {
+                Item: it,
+              },
+            }
+          : {
+              DeleteRequest: {
+                Key: it,
+              },
+            }
+      );
   }
 
   requests.forEach(async (req) => {
