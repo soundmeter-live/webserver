@@ -12,6 +12,7 @@ r.post('/add-points', async (req, res) => {
   const { error, data: input } = validate(
     req.body,
     z.object({
+      currentTime: z.number().int().optional(),
       points: z.array(
         z.object({
           timeAt: z.number().int(),
@@ -22,6 +23,17 @@ r.post('/add-points', async (req, res) => {
   );
   if (error) return res.err(400, error);
 
+  // correct times if needed
+  let points = input!.points;
+  if (input!.currentTime) {
+    const offset = Math.floor(Date.now() / 1000) - input!.currentTime;
+    points = points.map((p) => ({
+      ...p,
+      timeAt: p.timeAt + offset,
+    }));
+  }
+
+  // upload
   const { errors, data } = await graph(
     gql(/* GraphQL */ `
       mutation APILevelPointCreateMultiple($points: [LevelPointCreateInput!]!) {
@@ -32,12 +44,12 @@ r.post('/add-points', async (req, res) => {
         }
       }
     `),
-    input!
+    { points }
   );
   if (errors || !data) return res.err(500, 'SERVER_ERROR', errors);
 
-  const points = data.levelPointCreateMultiple;
-  res.json({ points });
+  // return data
+  res.json({ points: data.levelPointCreateMultiple });
 });
 
 r.get('/points', async (_, res) => {

@@ -213,7 +213,8 @@ abstract class Model<Type> {
     const ids = items.map((it) => it.id);
 
     await db.batchWrite(this.table, items);
-    return (await this.DBbatchGet(ids)) as DBType<Type>[];
+    // return (await this.DBbatchGet(ids)) as DBType<Type>[];
+    return items;
   }
 
   private async DBdeleteMultiple(ids: string[], output = true) {
