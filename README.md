@@ -30,7 +30,10 @@ Adds a set of new data points to the server. Each point needs a timestamp, as we
       "value": 0.0            // loudness value at this time [REQUIRED]
     },
     // ...
-  ]
+  ],
+  "currentTime": 000000000000 // (OPTIONAL) current system time at time of 
+                              // upload. will be used to correct passed `timeAt`
+                              // values if system time is incorrect.
 }
 ```
 
