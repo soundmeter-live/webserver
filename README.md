@@ -18,7 +18,7 @@ Shown below are the available endpoints.
 
 ### _POST_ `/api/add-points`
 
-Adds a set of new data points to the server. Each point needs a timestamp, as well as a numerical value representing the loudness at that time.
+Adds a set of new data points to the server. Each point needs an epoch timestamp in **milliseconds**, as well as a numerical value representing the loudness at that time.
 
 **BODY**
 
@@ -31,7 +31,7 @@ Adds a set of new data points to the server. Each point needs a timestamp, as we
     },
     // ...
   ],
-  "currentTime": 000000000000 // (OPTIONAL) current system time at time of 
+  "currentTime": 000000000000 // (OPTIONAL) current system time at time of
                               // upload. will be used to correct passed `timeAt`
                               // values if system time is incorrect.
 }
@@ -46,7 +46,7 @@ On _success_, The endpoint returns the added points, this time with their newly 
   "points": [
     {
       "id": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
-      "timeAt": 000000000000, // integer unix timestamp
+      "timeAt": "000000000000", // integer unix timestamp as string
       "value": 0.0            // loudness value at this time
     },
     // ...
@@ -78,7 +78,7 @@ On _success_, The endpoint returns all endpoints in this format...
   "points": [
     {
       "id": "00000000-0000-0000-0000-000000000000", // unique UUID identifier
-      "timeAt": 000000000000, // integer unix timestamp
+      "timeAt": "000000000000", // integer unix timestamp as string
       "value": 0.0            // loudness value at this time
     },
     // ...
@@ -102,7 +102,7 @@ Create a new tab in the window and close the "example query" to start. Then buil
 
 ### 1. install software
 
-First, install [Node.js](https://nodejs.org/en/download) (LTS version). Then, install the package manager [pnpm](https://pnpm.io/installation#using-corepack) (clickfor installation instructions.)
+First, install [Node.js](https://nodejs.org/en/download) (LTS version). Then, install the package manager [pnpm](https://pnpm.io/installation#using-corepack) (click for installation instructions.)
 
 ### 2. install packages
 

@@ -26,7 +26,8 @@ r.post('/add-points', async (req, res) => {
   // correct times if needed
   let points = input!.points;
   if (input!.currentTime) {
-    const offset = Math.floor(Date.now() / 1000) - input!.currentTime;
+    // const offset = Math.floor(Date.now() / 1000) - input!.currentTime;
+    const offset = Date.now() - input!.currentTime;
     points = points.map((p) => ({
       ...p,
       timeAt: p.timeAt + offset,
@@ -44,7 +45,12 @@ r.post('/add-points', async (req, res) => {
         }
       }
     `),
-    { points }
+    {
+      points: points.map((p) => ({
+        ...p,
+        timeAt: '' + p.timeAt,
+      })),
+    }
   );
   if (errors || !data) return res.err(500, 'SERVER_ERROR', errors);
 
@@ -68,9 +74,7 @@ r.get('/points', async (_, res) => {
 
   const points = data.levelPoints;
 
-  res.json({
-    points: points,
-  });
+  res.json({ points });
 });
 
 r.use((_, res) => res.err(404, 'API_ROUTE_NOT_FOUND'));

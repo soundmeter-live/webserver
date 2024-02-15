@@ -1,7 +1,7 @@
 import { graphql as gql } from './__types';
 
 export const GET_LEVEL_POINTS_AFTER_DATE = gql(/* GraphQL */ `
-  query LevelPointsAfterDate($after: Int!) {
+  query LevelPointsAfterDate($after: DateType!) {
     levelPointsAfterDate(after: $after) {
       id
       timeAt

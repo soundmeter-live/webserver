@@ -17,11 +17,19 @@ const config: CodegenConfig = {
       config: {
         contextType: '../graph#ResolverContextType',
         allowParentTypeOverride: true,
+        scalars: {
+          DateType: 'number',
+        },
       },
     },
     './src/db/__types_client/': {
       documents: 'src/api/**/*.{ts,tsx}',
       preset: 'client',
+      config: {
+        scalars: {
+          DateType: 'string',
+        },
+      },
     },
   },
   ignoreNoDocuments: true,

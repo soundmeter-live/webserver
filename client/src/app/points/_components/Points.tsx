@@ -13,7 +13,7 @@ const TEXT_DEBOUNCE_SEC = 0.8;
 const DEFAULT_HOURS = 24;
 
 const digit = (a: number | string) => ('00' + a).slice(-2);
-const hoursAgo = (hours: number) => luxon.now().minus({ hours }).toSeconds();
+const hoursAgo = (hours: number) => luxon.now().minus({ hours }).toMillis();
 
 const Points = () => {
   // number of hours
@@ -48,7 +48,7 @@ const Points = () => {
   // server data query
   const { isPending, isError, isFetching, data, error } = useGraphQuery(
     GET_LEVEL_POINTS_AFTER_DATE,
-    { after: sinceTime },
+    { after: '' + sinceTime },
     { refetchInterval: REFRESH_RATE_MS, retry: (attempts) => attempts < 5 },
   );
 
@@ -56,13 +56,13 @@ const Points = () => {
     console.log(((error as AxiosError).response?.data as any)?.error ?? error);
 
   const points = useMemo(() => {
-    let p = data?.levelPointsAfterDate;
+    let p = data?.levelPointsAfterDate?.map((it) => ({
+      ...it,
+      date: new Date(parseInt(it.timeAt)),
+    }));
     if (p) {
-      p.sort((a, b) => b!.timeAt - a!.timeAt);
-      return p.map((it) => ({
-        ...it,
-        date: new Date(it!.timeAt * 1000),
-      }));
+      p.sort((a, b) => b!.date.getTime() - a!.date.getTime());
+      return p;
     }
   }, [data]);
 
@@ -140,7 +140,7 @@ const Points = () => {
                     </span>
                     <span className="hidden sm:inline">
                       {' - '}
-                      {luxon.fromSeconds(pt.timeAt).toRelative()}
+                      {luxon.fromMillis(pt.date.getTime()).toRelative()}
                     </span>
                   </td>
 

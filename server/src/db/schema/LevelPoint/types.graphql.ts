@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+
 export default gql`
   """
   One data point for volume level. Each point contains the time it was recorded.
@@ -7,7 +8,7 @@ export default gql`
     "unique id"
     id: ID!
     "unix timestamp when this value was recorded"
-    timeAt: Int!
+    timeAt: DateType!
     "audio level at this time"
     value: Float!
 
@@ -23,9 +24,9 @@ export default gql`
     "get one LevelPoint by its ID"
     levelPoint(id: ID!): LevelPoint!
     "get only level points between a given timestamp and now"
-    levelPointsAfterDate(after: Int!): [LevelPoint!]
+    levelPointsAfterDate(after: DateType!): [LevelPoint!]
     "get only level points recorded with the given range of timestamps"
-    levelPointsBetweenDates(start: Int!, end: Int!): [LevelPoint!]
+    levelPointsBetweenDates(start: DateType!, end: DateType!): [LevelPoint!]
   }
   type Mutation {
     "create one new level point"
@@ -33,16 +34,16 @@ export default gql`
     "create multiple new level points at once"
     levelPointCreateMultiple(points: [LevelPointCreateInput!]!): [LevelPoint]
     "select one level point by its ID and update one of its properties"
-    levelPointUpdate(id: ID!, timeAt: Int, value: Float): LevelPoint!
+    levelPointUpdate(id: ID!, timeAt: DateType, value: Float): LevelPoint!
     "delete one level point by its ID"
     levelPointDelete(id: ID!): LevelPoint!
     "purge all data prior to a certain date"
-    levelPointDeleteAllBeforeDate(before: Int!): [LevelPoint]
+    levelPointDeleteAllBeforeDate(before: DateType!): [LevelPoint]
   }
 
   "One singular level point input (note you do not need to supply id or timestamp values. The database will take care of that on its own."
   input LevelPointCreateInput {
-    timeAt: Int!
+    timeAt: DateType!
     value: Float!
   }
 `;
