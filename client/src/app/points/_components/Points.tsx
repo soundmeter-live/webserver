@@ -7,7 +7,8 @@ import type { AxiosError } from 'axios';
 import { useGraphQuery } from '@/query';
 import { GET_LEVEL_POINTS_AFTER_DATE } from '@/gql/queries';
 
-const MAX_DISPLAY_SPL = 115;
+const MIN_DISPLAY_SPL = 68;
+const MAX_DISPLAY_SPL = 110;
 const REFRESH_RATE_MS = 8000;
 const TEXT_DEBOUNCE_SEC = 0.8;
 const DEFAULT_HOURS = 24;
@@ -157,7 +158,13 @@ const Points = () => {
                         <div
                           className="select-none bg-sky-600"
                           style={{
-                            width: `${(pt.value / MAX_DISPLAY_SPL) * 100}%`,
+                            width: `${
+                              ((pt.value - MIN_DISPLAY_SPL >= 0
+                                ? pt.value - MIN_DISPLAY_SPL
+                                : 0) /
+                                (MAX_DISPLAY_SPL - MIN_DISPLAY_SPL)) *
+                              100
+                            }%`,
                           }}
                         >
                           &nbsp;
