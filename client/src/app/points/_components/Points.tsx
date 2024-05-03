@@ -6,6 +6,7 @@ import type { AxiosError } from 'axios';
 
 import { useGraphQuery } from '@/query';
 import { GET_LEVEL_POINTS_AFTER_DATE } from '@/gql/queries';
+import QueryLoadingState from '@/components/QueryLoadingState';
 
 const MIN_DISPLAY_SPL = 68;
 const MAX_DISPLAY_SPL = 110;
@@ -96,13 +97,7 @@ const Points = () => {
           </div>
         </div>
         {/* loading state */}
-        <div className="fixed right-4 top-4 text-right text-sm opacity-80">
-          {isPending && (
-            <div className="text-amber-500">waiting for initial load</div>
-          )}
-          {isError && <div className="text-red-500">request failed</div>}
-          {isFetching && <div className="text-amber-300">(loading data)</div>}
-        </div>
+        <QueryLoadingState {...{ isPending, isFetching, isError }} />
 
         {/* data */}
         <div className="rounded-xl bg-zinc-900">

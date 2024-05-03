@@ -7,6 +7,19 @@
     "dev-client": "cd client && pnpm dev"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.15.0",
+    "postcss-simple-vars": "^7.0.1"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mantine/core": "^7.9.0",
+    "@mantine/dates": "^7.9.0",
+    "@mantine/hooks": "^7.9.0",
+    "@mui/material": "^5.15.16",
+    "@mui/x-charts": "^7.3.2",
+    "dayjs": "^1.11.11"
   }
 }

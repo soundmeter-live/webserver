@@ -19,3 +19,13 @@ export const GET_LEVEL_POINTS = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const GET_LEVEL_POINTS_BETWEEN_DATES = gql(/* GraphQL */ `
+  query LevelPointsBetweenDates($start: DateType!, $end: DateType!) {
+    levelPointsBetweenDates(start: $start, end: $end) {
+      id
+      timeAt
+      value
+    }
+  }
+`);
